@@ -30,7 +30,7 @@ This repo holds some of the cogs I like to use.
 
 ### How to install
 
-These cogs are made for [Red V3](https://github.com/Cog-Creators/Red-DiscordBot) by TwentySix. Using Red V3, you can add my repo by doing `[p]repo add Toxic-Cogs https://github.com/NeuroAssassin/Toxic-Cogs master`, then using `[p]cog install Toxic-Cogs <cog-name>` (with `[p]` being your prefix)
+These cogs are made for [Red V3](https://github.com/Cog-Creators/Red-DiscordBot) by TwentySix. Using Red V3, you can add my repo by doing `[p]repo add Celer-Cogs https://github.com/Ce1er/Celer-Cogs master`, then using `[p]cog install Celer-Cogs <cog-name>` (with `[p]` being your prefix)
 
 [Back to Table of Contents](#table-of-contents)
 
