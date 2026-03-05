@@ -43,6 +43,7 @@ These cogs are made for [Red V3](https://github.com/Cog-Creators/Red-DiscordBot)
 | ListPermissions | <details><summary>List the permissions of a role or user</summary>Get the permissions of a user or role in a certain channel or guild-wide.</details>                                                                                  | https://github.com/NeuroAssassin/Toxic-Cogs |
 | UpdateChecker   | <details><summary>Get notifications when there is an update for one of your repositories added to your bot</summary>Have your bot tell you in DM or a channel when there is an update for one of the repos added to your bot</details> | https://github.com/NeuroAssassin/Toxic-Cogs |
 | Targeter        | <details><summary>Target users in the guild based upon the passed arguments</summary>Allows arguments for dates, roles, names, activities, statuses or devices.</details>                                                              | https://github.com/NeuroAssassin/Toxic-Cogs |
+| MassPermissions | <details><summary>Export discord permissions</summary>Get permissions of all roles, channels or members in a server</details>                                                                                                          |                                             |
 
 [Back to Table of Contents](#table-of-contents)
 
