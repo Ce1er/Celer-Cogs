@@ -32,6 +32,11 @@ from redbot.core.utils.chat_formatting import pagify
 from prettytable import PrettyTable
 
 
+def code_pagify(language: str, *args, **kwargs):
+    for part in pagify(*args, **kwargs, page_length=2000 - len(language) - 7):
+        yield f"```{language}\n{part}```"
+
+
 class ListPermissions(commands.Cog):
     """Get the allowed/disable permissions in a guild or channel for a role or member"""
 
@@ -71,7 +76,9 @@ class ListPermissions(commands.Cog):
             roles = [role.name for role in ctx.guild.roles]
             results = process.extract(rolename, roles, limit=1)
             if results[0][1] <= 70:
-                return await ctx.send("Match was too low to be sure the role was found.")
+                return await ctx.send(
+                    "Match was too low to be sure the role was found."
+                )
             role = [role for role in ctx.guild.roles if role.name == results[0][0]][0]
         else:
             try:
@@ -82,9 +89,14 @@ class ListPermissions(commands.Cog):
         t = PrettyTable(["Permission", "Value"])
         for perm, value in role.permissions:
             t.add_row([perm, value])
-        sending = f"```ini\n[Permissions for role: {results[0][0]}]```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+        header = f"[Permissions for role: {results[0][0]}]"
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
 
     @lp_guild.command(name="member")
     async def guild_member(self, ctx, member: discord.Member = None):
@@ -95,9 +107,17 @@ class ListPermissions(commands.Cog):
         t = PrettyTable(["Permission", "Value"])
         for perm, value in permissions:
             t.add_row([perm, value])
-        sending = f"```ini\n[Permissions for user: {member.display_name}] in guild {ctx.guild.name}```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+
+        header = (
+            f"[Permissions for user: {member.display_name} in guild {ctx.guild.name}]"
+        )
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
 
     @listpermissions.group(name="channel")
     async def lp_channel(self, ctx):
@@ -109,7 +129,9 @@ class ListPermissions(commands.Cog):
         self,
         ctx,
         member: discord.Member = None,
-        channel: Union[discord.VoiceChannel, discord.TextChannel, discord.CategoryChannel] = None,
+        channel: Union[
+            discord.VoiceChannel, discord.TextChannel, discord.CategoryChannel
+        ] = None,
     ):
         """Generates the permissions for a member in a channel.
 
@@ -125,9 +147,17 @@ class ListPermissions(commands.Cog):
         t = PrettyTable(["Permission", "Value"])
         for perm, value in permissions:
             t.add_row([perm, value])
-        sending = f"```ini\n[Permissions for user: {member.display_name}] in channel {channel.name}```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+
+        header = (
+            f"[Permissions for user: {member.display_name} in channel {channel.name}]"
+        )
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
 
     @lp_channel.command(name="role")
     async def channel_role(
@@ -159,7 +189,9 @@ class ListPermissions(commands.Cog):
             roles = [role.name for role in ctx.guild.roles]
             results = process.extract(rolename, roles, limit=1)
             if results[0][1] <= 70:
-                return await ctx.send("Match was too low to be sure the role was found.")
+                return await ctx.send(
+                    "Match was too low to be sure the role was found."
+                )
             role = [role for role in ctx.guild.roles if role.name == results[0][0]][0]
         else:
             try:
@@ -171,9 +203,15 @@ class ListPermissions(commands.Cog):
         t = PrettyTable(["Permission", "Value"])
         for perm, value in permissions:
             t.add_row([perm, value])
-        sending = f"```ini\n[Permissions for role: {results[0][0]} in channel {channel.name}]```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+
+        header = f"[Permissions for role: {results[0][0]} in channel {channel.name}]"
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
 
     @commands.guild_only()
     @commands.group(aliases=["ap"])
@@ -204,7 +242,9 @@ class ListPermissions(commands.Cog):
             roles = [role.name for role in ctx.guild.roles]
             results = process.extract(rolename, roles, limit=1)
             if results[0][1] <= 70:
-                return await ctx.send("Match was too low to be sure the role was found.")
+                return await ctx.send(
+                    "Match was too low to be sure the role was found."
+                )
             role = [role for role in ctx.guild.roles if role.name == results[0][0]][0]
         else:
             try:
@@ -217,9 +257,15 @@ class ListPermissions(commands.Cog):
             if not value:
                 continue
             t.add_row([perm, value])
-        sending = f"```ini\n[Available permissions for role: {results[0][0]}]```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+
+        header = f"[Available permissions for role: {results[0][0]}]"
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
 
     @ap_guild.command(name="member")
     async def ap_guild_member(self, ctx, member: discord.Member = None):
@@ -232,9 +278,15 @@ class ListPermissions(commands.Cog):
             if not value:
                 continue
             t.add_row([perm, value])
-        sending = f"```ini\n[Available Permissions for user: {member.display_name}] in guild {ctx.guild.name}```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+
+        header = f"[Available permissions for user: {member.display_name} in guild {ctx.guild.name}]"
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
 
     @availablepermissions.group(name="channel")
     async def ap_channel(self, ctx):
@@ -246,7 +298,9 @@ class ListPermissions(commands.Cog):
         self,
         ctx,
         member: discord.Member = None,
-        channel: Union[discord.VoiceChannel, discord.TextChannel, discord.CategoryChannel] = None,
+        channel: Union[
+            discord.VoiceChannel, discord.TextChannel, discord.CategoryChannel
+        ] = None,
     ):
         """Generates the permissions for a member in a channel.
 
@@ -264,9 +318,15 @@ class ListPermissions(commands.Cog):
             if not value:
                 continue
             t.add_row([perm, value])
-        sending = f"```ini\n[Available permissions for user: {member.display_name}] in channel {channel.name}```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+
+        header = f"[Available permissions for user: {member.display_name} in channel {channel.name}]"
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
 
     @ap_channel.command(name="role")
     async def ap_channel_role(
@@ -298,7 +358,9 @@ class ListPermissions(commands.Cog):
             roles = [role.name for role in ctx.guild.roles]
             results = process.extract(rolename, roles, limit=1)
             if results[0][1] <= 70:
-                return await ctx.send("Match was too low to be sure the role was found.")
+                return await ctx.send(
+                    "Match was too low to be sure the role was found."
+                )
             role = [role for role in ctx.guild.roles if role.name == results[0][0]][0]
         else:
             try:
@@ -312,9 +374,15 @@ class ListPermissions(commands.Cog):
             if not value:
                 continue
             t.add_row([perm, value])
-        sending = f"```ini\n[Permissions for role: {results[0][0]} in channel {channel.name}]```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+
+        header = f"[Permissions for role: {results[0][0]} in channel {channel.name}]"
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
 
     @commands.guild_only()
     @commands.group(aliases=["dp"])
@@ -345,7 +413,9 @@ class ListPermissions(commands.Cog):
             roles = [role.name for role in ctx.guild.roles]
             results = process.extract(rolename, roles, limit=1)
             if results[0][1] <= 70:
-                return await ctx.send("Match was too low to be sure the role was found.")
+                return await ctx.send(
+                    "Match was too low to be sure the role was found."
+                )
             role = [role for role in ctx.guild.roles if role.name == results[0][0]][0]
         else:
             try:
@@ -358,9 +428,15 @@ class ListPermissions(commands.Cog):
             if value:
                 continue
             t.add_row([perm, value])
-        sending = f"```ini\n[Permissions for role: {results[0][0]}]```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+
+        header = f"[Permissions for role: {results[0][0]}]"
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
 
     @dp_guild.command(name="member")
     async def dp_guild_member(self, ctx, member: discord.Member = None):
@@ -373,9 +449,17 @@ class ListPermissions(commands.Cog):
             if value:
                 continue
             t.add_row([perm, value])
-        sending = f"```ini\n[Permissions for user: {member.display_name}] in guild {ctx.guild.name}```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+
+        header = (
+            f"[Permissions for user: {member.display_name} in guild {ctx.guild.name}]"
+        )
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
 
     @deniedpermissions.group(name="channel")
     async def dp_channel(self, ctx):
@@ -387,7 +471,9 @@ class ListPermissions(commands.Cog):
         self,
         ctx,
         member: discord.Member = None,
-        channel: Union[discord.VoiceChannel, discord.TextChannel, discord.CategoryChannel] = None,
+        channel: Union[
+            discord.VoiceChannel, discord.TextChannel, discord.CategoryChannel
+        ] = None,
     ):
         """Generates the permissions for a member in a channel.
 
@@ -405,9 +491,17 @@ class ListPermissions(commands.Cog):
             if value:
                 continue
             t.add_row([perm, value])
-        sending = f"```ini\n[Permissions for user: {member.display_name}] in channel {channel.name}```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+
+        header = (
+            f"[Permissions for user: {member.display_name} in guild {channel.name}]"
+        )
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
 
     @dp_channel.command(name="role")
     async def dp_channel_role(
@@ -439,7 +533,9 @@ class ListPermissions(commands.Cog):
             roles = [role.name for role in ctx.guild.roles]
             results = process.extract(rolename, roles, limit=1)
             if results[0][1] <= 70:
-                return await ctx.send("Match was too low to be sure the role was found.")
+                return await ctx.send(
+                    "Match was too low to be sure the role was found."
+                )
             role = [role for role in ctx.guild.roles if role.name == results[0][0]][0]
         else:
             try:
@@ -453,6 +549,12 @@ class ListPermissions(commands.Cog):
             if value:
                 continue
             t.add_row([perm, value])
-        sending = f"```ini\n[Permissions for role: {results[0][0]} in channel {channel.name}]```\n```py\n{t}```"
-        for page in pagify(sending):
-            await ctx.send(sending)
+
+        header = f"[Permissions for role: {results[0][0]} in channel {channel.name}]"
+        body = f"{t}"
+
+        for page in code_pagify("ini", header):
+            await ctx.send(page)
+
+        for page in code_pagify("py", body):
+            await ctx.send(page)
