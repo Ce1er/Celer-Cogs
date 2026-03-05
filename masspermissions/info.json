@@ -1,0 +1,14 @@
+{
+    "author": [
+        "Celer"
+    ],
+    "install_msg": "Thank you for downloading this cog.",
+    "name": "masspermissions",
+    "short": "Manage many permissions at once.",
+    "description": "Tools to see permissions for a guild.",
+    "tags": [
+        "tools"
+    ],
+    "requirements": [],
+    "hidden": false
+}
