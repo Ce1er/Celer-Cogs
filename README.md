@@ -55,7 +55,7 @@ These cogs are made for [Red V3](https://github.com/Cog-Creators/Red-DiscordBot)
 
 ### Bugs and Help
 
-Bugs can be reported to https://github.com/Ce1er/Toxic-Cogs/issues
+Bugs can be reported to https://github.com/Ce1er/Celer-Cogs/issues
 
 [Back to Table of Contents](#table-of-contents)
 
