@@ -31,7 +31,7 @@ from redbot.core.utils.chat_formatting import pagify
 
 from prettytable import PrettyTable
 
-from utils.text_formatting import code_pagify
+from ..utils.text_formatting import code_pagify
 
 
 class ListPermissions(commands.Cog):
