@@ -10,6 +10,7 @@ from enum import Enum
 
 from redbot.core import commands, app_commands
 
+
 class DateFormat(Enum):
     TIMER = "R"
     TIME = "t"
@@ -20,6 +21,7 @@ class DateFormat(Enum):
     MONTH_DATE = "D"
     MONTH_DATETIME = "f"
     LONG = "F"
+
 
 def latex_to_png(latex: str, density: int) -> bytes:
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -131,27 +133,40 @@ class RichMessage(commands.Cog):
     @app_commands.command()
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-    async def tex_message(self, interaction: discord.Interaction):
+    async def tex_message(
+        self, interaction: discord.Interaction, ephemeral: bool = False
+    ):
         """Message with TeX inspired rich formatting."""
         await interaction.response.send_modal(LatexModal())
 
     @app_commands.command()
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-    async def echo(self, interaction: discord.Interaction, message: str):
+    async def echo(
+        self, interaction: discord.Interaction, message: str, ephemeral: bool = False
+    ):
         """Message with TeX inspired rich formatting."""
         await interaction.response.send_message(message)
-
 
     @app_commands.command()
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-    async def dev_timestamp(self, interaction: discord.Interaction, datetime:str, format: DateFormat=DateFormat.TIMER):
+    async def dev_timestamp(
+        self,
+        interaction: discord.Interaction,
+        datetime: str,
+        format: DateFormat = DateFormat.TIMER,
+        ephemeral: bool = False,
+    ):
         """Echo text"""
         try:
             date = dateutil.parser.parse(datetime)
         except Exception as e:
-            await interaction.response.send_message(f"Invalid date: {e}", ephemeral=True)
+            await interaction.response.send_message(
+                f"Invalid date: {e}", ephemeral=True
+            )
             return
 
-        await interaction.response.send_message("<t:"+str(int(date.timestamp()))+f":{format.value}>")
+        await interaction.response.send_message(
+            "<t:" + str(int(date.timestamp())) + f":{format.value}>"
+        )

@@ -10,6 +10,7 @@ from enum import Enum
 
 from redbot.core import commands, app_commands
 
+
 class DateFormat(Enum):
     TIMER = "R"
     TIME = "t"
@@ -20,6 +21,7 @@ class DateFormat(Enum):
     MONTH_DATE = "D"
     MONTH_DATETIME = "f"
     LONG = "F"
+
 
 def latex_to_png(latex: str, density: int) -> bytes:
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -138,18 +140,25 @@ class DevRichMessage(commands.Cog):
     @app_commands.command()
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-    async def dev_echo(self, interaction: discord.Interaction, message:str):
+    async def dev_echo(self, interaction: discord.Interaction, message: str):
         """Echo text"""
         await interaction.response.send_message(message)
 
     @app_commands.command()
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-    async def dev_timestamp(self, interaction: discord.Interaction, datetime:str, format: DateFormat=DateFormat.TIMER):
+    async def dev_timestamp(
+        self,
+        interaction: discord.Interaction,
+        datetime: str,
+        format: DateFormat = DateFormat.TIMER,
+    ):
         """Echo text"""
         try:
             date = dateutil.parser.parse(iso8601)
         except:
             await interaction.response.send_message("Invalid date", ephemeral=True)
 
-        await interaction.response.send_message("<t:"+str(int(date.timestamp()))+f":{format.value}>")
+        await interaction.response.send_message(
+            "<t:" + str(int(date.timestamp())) + f":{format.value}>"
+        )
