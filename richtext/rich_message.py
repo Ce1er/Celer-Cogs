@@ -5,9 +5,21 @@ from pathlib import Path
 import asyncio
 import subprocess
 import tempfile
+import dateutil
+from enum import Enum
 
 from redbot.core import commands, app_commands
 
+class DateFormat(Enum):
+    TIMER = "R"
+    TIME = "t"
+    SECONDS_TIME = "T"
+    DATE = "d"
+    DATETIME = "s"
+    DATETIME_SECONDS = "S"
+    MONTH_DATE = "D"
+    MONTH_DATETIME = "f"
+    LONG = "F"
 
 def latex_to_png(latex: str, density: int) -> bytes:
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -129,3 +141,17 @@ class RichMessage(commands.Cog):
     async def echo(self, interaction: discord.Interaction, message: str):
         """Message with TeX inspired rich formatting."""
         await interaction.response.send_message(message)
+
+
+    @app_commands.command()
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    async def dev_timestamp(self, interaction: discord.Interaction, datetime:str, format: DateFormat=DateFormat.TIMER):
+        """Echo text"""
+        try:
+            date = dateutil.parser.parse(datetime)
+        except Exception as e:
+            await interaction.response.send_message(f"Invalid date: {e}", ephemeral=True)
+            return
+
+        await interaction.response.send_message("<t:"+str(int(date.timestamp()))+f":{format.value}>")
