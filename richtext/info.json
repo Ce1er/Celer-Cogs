@@ -1,0 +1,14 @@
+{
+    "author": [
+        "Celer"
+    ],
+    "install_msg": "Thank you for downloading this cog.",
+    "name": "richtext",
+    "short": "Send pretty messages.",
+    "description": "Commands to send messages with extended formatting options and in several formats.",
+    "tags": [
+        "tools"
+    ],
+    "requirements": [],
+    "hidden": false
+}
