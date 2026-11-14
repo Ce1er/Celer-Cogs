@@ -117,7 +117,8 @@ class RichMessage(commands.Cog):
         self.bot = bot
 
     @app_commands.command()
-    @app_commands.allowed_contexts(dm_permissions=True)
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
     async def tex_message(self, interaction: discord.Interaction):
         """Message with TeX inspired rich formatting."""
         await interaction.response.send_modal(LatexModal())
