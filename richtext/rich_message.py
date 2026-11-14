@@ -124,7 +124,7 @@ class LatexModal(discord.ui.Modal, title="Render LaTeX"):
         )
 
 
-class EchoModal(discord.ui.Modal):
+class EchoModal(discord.ui.Modal, title="Echo text"):
     text = discord.ui.TextInput(
         label="LaTeX",
         style=discord.TextStyle.paragraph,
