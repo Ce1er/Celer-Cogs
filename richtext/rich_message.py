@@ -166,7 +166,7 @@ class RichMessage(commands.Cog):
         self, interaction: discord.Interaction, ephemeral: bool = False
     ):
         """Echo any text: Modal input"""
-        await interaction.response.send_modal(EchoModal)
+        await interaction.response.send_modal(EchoModal())
 
     @app_commands.command()
     @app_commands.allowed_installs(guilds=True, users=True)
