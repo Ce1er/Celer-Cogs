@@ -124,6 +124,17 @@ class LatexModal(discord.ui.Modal, title="Render LaTeX"):
         )
 
 
+class EchoModal(discord.ui.Modal):
+    text = discord.ui.TextInput(
+        label="LaTeX",
+        style=discord.TextStyle.paragraph,
+        max_length=2000,  # TODO: Embed pagination
+    )
+
+    async def on_submit(self, interaction: discord.Interaction):
+        await interaction.response.send_message(self.text.value)
+
+
 class RichMessage(commands.Cog):
     """Show information about a flight."""
 
@@ -136,7 +147,7 @@ class RichMessage(commands.Cog):
     async def tex_message(
         self, interaction: discord.Interaction, ephemeral: bool = False
     ):
-        """Message with TeX inspired rich formatting."""
+        """Render LaTeX as a PNG"""
         await interaction.response.send_modal(LatexModal())
 
     @app_commands.command()
@@ -145,8 +156,17 @@ class RichMessage(commands.Cog):
     async def echo(
         self, interaction: discord.Interaction, message: str, ephemeral: bool = False
     ):
-        """Message with TeX inspired rich formatting."""
+        """Echo any text"""
         await interaction.response.send_message(message)
+
+    @app_commands.command()
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    async def echo_modal(
+        self, interaction: discord.Interaction, ephemeral: bool = False
+    ):
+        """Echo any text: Modal input"""
+        await interaction.response.send_modal(EchoModal)
 
     @app_commands.command()
     @app_commands.allowed_installs(guilds=True, users=True)
