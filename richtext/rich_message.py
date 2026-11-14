@@ -151,7 +151,7 @@ class RichMessage(commands.Cog):
     @app_commands.command()
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-    async def dev_timestamp(
+    async def timestamp(
         self,
         interaction: discord.Interaction,
         datetime: str,
