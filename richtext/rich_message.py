@@ -126,7 +126,7 @@ class LatexModal(discord.ui.Modal, title="Render LaTeX"):
 
 class EchoModal(discord.ui.Modal, title="Echo text"):
     text = discord.ui.TextInput(
-        label="LaTeX",
+        label="Text",
         style=discord.TextStyle.paragraph,
         max_length=2000,  # TODO: Embed pagination
     )
